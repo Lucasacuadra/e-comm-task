@@ -1,6 +1,13 @@
 # e-commerce-test
 
-To run the project, run the following command to install the files:
+To Clone the project run
+
+```
+git clone 
+
+```
+
+Then run the following command to install the files:
 
 ```
 npm install
