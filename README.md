@@ -3,7 +3,7 @@
 To Clone the project run
 
 ```
-git clone 
+git clone https://github.com/Lucasacuadra/e-comm-task.git
 
 ```
 
