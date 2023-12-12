@@ -1,7 +1,7 @@
 <template>
 	<div
 		class="slider"
-		:class="{ 'h-[80vh]': isInModal, 'h-[60vh]': !isInModal }"
+		:class="{ 'h-[76vh]': isInModal, 'h-[60vh]': !isInModal }"
 		@touchstart="handleTouchStart"
 		@touchmove="handleTouchMove"
 		@touchend="handleTouchEnd"
@@ -17,7 +17,7 @@
 					:isInModal="isInModal"
 				/>
 				<VideoPlayer
-					v-if="slide.type == 'video' && !isMobileScreen"
+					v-if="slide.type == 'video' && windowWidth > 450"
 					:video="slide.main"
 				/>
 			</div>
@@ -29,11 +29,14 @@
 	import { ref } from 'vue';
 	import ImageZoom from './ImageZoom.vue';
 	import VideoPlayer from './VideoPlayer.vue';
+	import useWindowWidth from '@/functions/UseWindowWidth';
 
 	defineProps(['images', 'currentSlide', 'isInModal']);
+
+	const { windowWidth } = useWindowWidth();
+
 	const emit = defineEmits(['handleSwipe']);
 
-	const isMobileScreen = ref(window.innerWidth < 450);
 	const isClick = ref(false);
 	const touchStartX = ref(0);
 	const touchEndX = ref(0);
@@ -67,6 +70,7 @@
 		position: relative;
 		overflow: hidden;
 		width: 100%;
+		max-height: 76vh;
 		margin: auto;
 	}
 

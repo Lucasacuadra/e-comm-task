@@ -35,7 +35,7 @@
 			@handleSwipe="arrowClick"
 		/>
 
-		<div v-if="!isMobileScreen" class="flex justify-center pb-2">
+		<div v-if="windowWidth > 450" class="flex justify-center pb-2">
 			<ThumbnailPreview
 				v-for="item in images"
 				:key="item.id"
@@ -62,7 +62,7 @@
 			:activeClass="item.id === selectedMedia.id ? 'bg-red-500' : 'none'"
 			@click="setSelectedMedia(item)"
 		/>
-		<div v-if="!isMobileScreen">
+		<div v-if="windowWidth > 450">
 			<MiniPlayButton
 				v-for="item in videos"
 				:key="item.id"
@@ -84,10 +84,11 @@
 	import PopupModal from '../product/PopupModal.vue';
 	import ThumbnailPreview from '../product/ThumbnailPreview.vue';
 	import ThumbnailVideoPreview from '../product/ThumbnailVideoPreview.vue';
+	import useWindowWidth from '@/functions/UseWindowWidth';
 
 	const props = defineProps(['productInformation']);
 
-	const isMobileScreen = ref(window.innerWidth < 450);
+	const { windowWidth } = useWindowWidth();
 
 	const images = ref(
 		props.productInformation.media.filter((item) => item.type === 'image')
@@ -101,7 +102,7 @@
 	const showPopup = ref(false);
 
 	const imagesForMobile = () => {
-		if (isMobileScreen.value) {
+		if (windowWidth.value < 450) {
 			return images.value;
 		} else return props.productInformation.media;
 	};
@@ -110,16 +111,20 @@
 
 	const arrowClick = (countType) => {
 		const currentSelectedMedia = selectedMedia.value.id;
+		console.log(countType);
+		console.log(currentSelectedMedia);
+		console.log(images.value.length);
 
 		if (countType === 'minus' && selectedMedia.value.id != 1) {
+			console.log('minus 1');
 			const findnewId = props.productInformation.media.find(
 				(item) => item.id === currentSelectedMedia - 1
 			);
 			selectedMedia.value = findnewId;
 		} else if (
 			countType === 'plus' &&
-			isMobileScreen.value &&
-			selectedMedia.value.id != images.value.length
+			windowWidth.value < 450 &&
+			currentSelectedMedia != images.value.length
 		) {
 			const findnewId = props.productInformation.media.find(
 				(item) => item.id === currentSelectedMedia + 1
@@ -127,8 +132,8 @@
 			selectedMedia.value = findnewId;
 		} else if (
 			countType === 'plus' &&
-			!isMobileScreen.value &&
-			selectedMedia.value.id != props.productInformation.media.length
+			windowWidth.value > 450 &&
+			currentSelectedMedia != props.productInformation.media.length
 		) {
 			const findnewId = props.productInformation.media.find(
 				(item) => item.id === currentSelectedMedia + 1

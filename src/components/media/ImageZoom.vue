@@ -6,8 +6,8 @@
 			:src="imageUrl"
 			class="pl-4 mx-auto cursor-pointer"
 			:class="{
-				'h-[80vh]': isInModal,
-				'h-[60vh]': !isZoomed && !isInModal
+				'max-h-[76vh]': isInModal,
+				'max-h-[60vh]': !isZoomed && !isInModal
 			}"
 		/>
 	</div>
@@ -15,17 +15,18 @@
 
 <script setup>
 	import { ref } from 'vue';
+	import useWindowWidth from '@/functions/UseWindowWidth';
+
+	const { windowWidth } = useWindowWidth();
 
 	const props = defineProps(['imageUrl', 'isInModal']);
-
-	const isMobileScreen = ref(window.innerWidth < 450);
 
 	const isZoomed = ref(false);
 	const zoomImageRef = ref(null);
 	const lastClickTime = ref(null);
 
 	const handleClick = (event) => {
-		if (!isMobileScreen.value && props.isInModal) {
+		if (windowWidth.value > 450 && props.isInModal) {
 			toggleZoom(event);
 		} else {
 			const currentTime = new Date().getTime();

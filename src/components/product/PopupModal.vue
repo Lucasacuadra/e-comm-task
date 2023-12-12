@@ -2,7 +2,7 @@
 	<div class="z-modal modal z-50 fixed inset-0 flex items-center">
 		<div class="mx-auto bg-white items-center w-[100vw] h-[100vh]">
 			<button
-				v-if="!isMobileScreen"
+				v-if="windowWidth > 450"
 				class="text-gray-500 font-semibold absolute right-2 top-0 mr-3 mt-4 h-3 w-4 self-end"
 				@click="$emit('close')"
 			>
@@ -10,7 +10,7 @@
 			</button>
 			<div class="md:my-4 w-20 pt-3 pl-3 rounded drop-shadow-md">
 				<BlockButton
-					v-if="isMobileScreen"
+					v-if="windowWidth < 450"
 					buttonText="Back"
 					class="border border-gray-500"
 					@click="$emit('close')"
@@ -18,7 +18,7 @@
 			</div>
 
 			<div
-				v-if="!isMobileScreen"
+				v-if="windowWidth > 450"
 				class="flex border-b border-gray-400 w-11/12 mx-auto pt-2"
 			>
 				<div
@@ -47,7 +47,7 @@
 				/>
 
 				<div class="mt-4 mx-auto">
-					<div v-if="!isMobileScreen" class="mt-4 mb-3 flex">
+					<div v-if="windowWidth > 450" class="mt-4 mb-3 flex">
 						<div class="mx-1">
 							{{ productInformation.model }}
 						</div>
@@ -92,6 +92,7 @@
 	import ImageSlider from '../media/ImageSlider.vue';
 	import ThumbnailVideoPreview from './ThumbnailVideoPreview.vue';
 	import ThumbnailPreview from './ThumbnailPreview.vue';
+	import useWindowWidth from '@/functions/UseWindowWidth';
 
 	const props = defineProps([
 		'selectedMedia',
@@ -101,7 +102,8 @@
 	]);
 	const emit = defineEmits(['close', 'setSelectedMedia', 'handleSwipe']);
 
-	const isMobileScreen = ref(window.innerWidth < 450);
+	const { windowWidth } = useWindowWidth();
+
 	const selectedTab = ref(props.selectedMedia.type);
 
 	const handleSwipe = (event) => emit('handleSwipe', event);

@@ -1,6 +1,6 @@
 <template>
 	<div class="my-auto">
-		<video ref="videoPlayer" class="w-auto h-auto mx-10" controls>
+		<video ref="videoPlayer" class="w-auto h-auto mx-auto" controls>
 			<source :src="video" type="video/mp4" />
 		</video>
 	</div>
