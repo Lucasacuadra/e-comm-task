@@ -23,15 +23,15 @@
 			>
 				<div
 					class="ml-2 cursor-pointer"
-					:class="selectedTab === 'images' ? 'text-black' : 'text-gray-400'"
-					@click="handleTabChange('images')"
+					:class="selectedTab === 'image' ? 'text-black' : 'text-gray-400'"
+					@click="handleTabChange('image')"
 				>
 					Images
 				</div>
 				<div
 					class="ml-4 cursor-pointer"
-					:class="selectedTab === 'videos' ? 'text-black' : 'text-gray-400'"
-					@click="handleTabChange('videos')"
+					:class="selectedTab === 'video' ? 'text-black' : 'text-gray-400'"
+					@click="handleTabChange('video')"
 				>
 					Videos
 				</div>
@@ -41,7 +41,7 @@
 				<ImageSlider
 					class="col-span-2"
 					:images="productInformation.media"
-					:currentSlide="selectedMedia"
+					:currentSlide="selectedMedia.id - 1"
 					:isInModal="true"
 					@handleSwipe="handleSwipe"
 				/>
@@ -56,7 +56,7 @@
 						</div>
 					</div>
 
-					<div v-if="selectedTab === 'images'" class="flex">
+					<div v-if="selectedTab === 'image'" class="flex">
 						<ThumbnailPreview
 							v-for="thumbnail in images"
 							:key="thumbnail.id"
@@ -70,7 +70,7 @@
 						/>
 					</div>
 
-					<div v-if="selectedTab === 'videos'" class="flex">
+					<div v-if="selectedTab === 'video'" class="flex">
 						<ThumbnailVideoPreview
 							v-for="thumbnail in videos"
 							:key="thumbnail.id"
@@ -102,15 +102,15 @@
 	const emit = defineEmits(['close', 'setSelectedMedia', 'handleSwipe']);
 
 	const isMobileScreen = ref(window.innerWidth < 450);
-	const selectedTab = ref('images');
+	const selectedTab = ref(props.selectedMedia.type);
 
 	const handleSwipe = (event) => emit('handleSwipe', event);
 
 	const handleTabChange = (tab) => {
 		selectedTab.value = tab;
-		if (tab === 'videos') {
+		if (tab === 'video') {
 			emit('setSelectedMedia', props.videos[0]);
-		} else if (tab === 'images') {
+		} else if (tab === 'image') {
 			emit('setSelectedMedia', props.images[0]);
 		}
 	};

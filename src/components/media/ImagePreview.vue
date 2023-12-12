@@ -26,7 +26,7 @@
 
 		<PopupModal
 			v-if="showPopup"
-			:selectedMedia="selectedMedia.id - 1"
+			:selectedMedia="selectedMedia"
 			:productInformation="productInformation"
 			:images="images"
 			:videos="videos"
